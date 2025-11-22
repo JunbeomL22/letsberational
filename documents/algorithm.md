@@ -298,15 +298,6 @@ Output: Implied volatility σ
 - **Improvement:** 5× faster than previous "By Implication" method at high accuracy
 - **Comparison:** Much better convergence than Newton-Raphson or Halley's method
 
-## 9. Reference Implementation
-
-Source code available at: **www.jaeckel.org/LetsBeRational.7z**
-
-Includes:
-- Complete implementation
-- 187 figures demonstrating accuracy
-- Detailed code comments with explicit formulas
-
 ## Key Advantages
 
 1. **Universal Precision:** Two iterations achieve machine accuracy for ALL inputs
