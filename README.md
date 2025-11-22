@@ -130,7 +130,6 @@ Implements W. J. Cody's rational Chebyshev approximations for:
 ## References
 
 - **Paper**: "Let's Be Rational" by Peter Jäckel, March 25, 2016
-- **Original Implementation**: www.jaeckel.org/LetsBeRational.7z
 - **Cody's Algorithm**: "Rational Chebyshev approximations for the error function" (Math. Comp., 1969, PP. 631-638)
 
 ## License
