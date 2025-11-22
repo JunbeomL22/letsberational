@@ -294,7 +294,7 @@ Output: Implied volatility σ
 - **Range:** Works for |x| from near 0 to -707 (hardware limit)
 
 ### Performance
-- **Speed:** ~1 microsecond per calculation
+- **Speed:** ~0.2 microsecond per calculation
 - **Improvement:** 5× faster than previous "By Implication" method at high accuracy
 - **Comparison:** Much better convergence than Newton-Raphson or Halley's method
 

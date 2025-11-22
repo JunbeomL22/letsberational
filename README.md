@@ -123,7 +123,7 @@ Implements W. J. Cody's rational Chebyshev approximations for:
 
 ## Performance
 
-- **Speed**: Approximately 1 microsecond per calculation
+- **Speed**: Approximately 0.2 microsecond per calculation
 - **Accuracy**: Relative error < 10⁻¹⁵ (machine epsilon level)
 - **Range**: Works for |x| from near 0 to -707 (IEEE 754 double precision limit)
 
@@ -131,10 +131,6 @@ Implements W. J. Cody's rational Chebyshev approximations for:
 
 - **Paper**: "Let's Be Rational" by Peter Jäckel, March 25, 2016
 - **Cody's Algorithm**: "Rational Chebyshev approximations for the error function" (Math. Comp., 1969, PP. 631-638)
-
-## License
-
-This is a Java port of Peter Jäckel's original C++ implementation.
 
 ## Notes
 
