@@ -1,4 +1,4 @@
-# Be Rational - Java Implementation
+# Let's be rational - Java Implementation
 
 A Java implementation of Peter Jäckel's "Let's Be Rational" algorithm for computing Black's implied volatility from option prices.
 
