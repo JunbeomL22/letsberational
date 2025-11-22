@@ -1,0 +1,4 @@
+package com.berational.benchmark.jmh_generated;
+public class ImpliedVolatilityBenchmark_HighVolState_jmhType extends ImpliedVolatilityBenchmark_HighVolState_jmhType_B3 {
+}
+

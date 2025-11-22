@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.ams.org)",
+      "WebFetch(domain:netlib.org)",
+      "WebFetch(domain:people.sc.fsu.edu)",
+      "WebFetch(domain:people.math.sc.edu)",
+      "Bash(mvn clean test:*)",
+      "Bash(mvn test:*)",
+      "Bash(javac:*)",
+      "Bash(mvn compile exec:java:*)",
+      "Bash(mvn clean package:*)",
+      "Bash(java:*)",
+      "Bash(tee:*)",
+      "Bash(while ps aux:*)",
+      "Bash(do sleep 10)",
+      "Bash(done)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

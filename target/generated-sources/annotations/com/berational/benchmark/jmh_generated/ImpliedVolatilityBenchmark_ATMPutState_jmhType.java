@@ -1,0 +1,4 @@
+package com.berational.benchmark.jmh_generated;
+public class ImpliedVolatilityBenchmark_ATMPutState_jmhType extends ImpliedVolatilityBenchmark_ATMPutState_jmhType_B3 {
+}
+

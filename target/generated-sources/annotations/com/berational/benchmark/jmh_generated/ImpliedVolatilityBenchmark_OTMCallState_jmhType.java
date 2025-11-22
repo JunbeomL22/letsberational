@@ -1,0 +1,4 @@
+package com.berational.benchmark.jmh_generated;
+public class ImpliedVolatilityBenchmark_OTMCallState_jmhType extends ImpliedVolatilityBenchmark_OTMCallState_jmhType_B3 {
+}
+
