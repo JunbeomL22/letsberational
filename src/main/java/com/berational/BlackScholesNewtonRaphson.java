@@ -1,6 +1,5 @@
 package com.berational;
 
-import org.apache.commons.math3.util.FastMath;
 import static com.berational.NormalDistribution.*;
 
 /**
@@ -51,7 +50,7 @@ public class BlackScholesNewtonRaphson {
         }
 
         double sqrtT = Math.sqrt(T);
-        double d1 = (FastMath.log(F / K) + 0.5 * sigma * sigma * T) / (sigma * sqrtT);
+        double d1 = (Math.log(F / K) + 0.5 * sigma * sigma * T) / (sigma * sqrtT);
         double d2 = d1 - sigma * sqrtT;
 
         if (isCall) {
@@ -76,7 +75,7 @@ public class BlackScholesNewtonRaphson {
         }
 
         double sqrtT = Math.sqrt(T);
-        double d1 = (FastMath.log(F / K) + 0.5 * sigma * sigma * T) / (sigma * sqrtT);
+        double d1 = (Math.log(F / K) + 0.5 * sigma * sigma * T) / (sigma * sqrtT);
 
         return F * sqrtT * pdf(d1);
     }

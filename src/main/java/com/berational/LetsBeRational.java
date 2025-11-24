@@ -1,6 +1,5 @@
 package com.berational;
 
-import org.apache.commons.math3.util.FastMath;
 import static com.berational.Constants.*;
 import static com.berational.RationalCubic.*;
 import static com.berational.NormalDistribution.*;
@@ -63,7 +62,7 @@ public class LetsBeRational {
                 0.0));
         }
 
-        double bMax = FastMath.exp(0.5 * x);
+        double bMax = Math.exp(0.5 * x);
         double oneOverBMax = 1.0 / bMax;
         return Math.abs(Math.max((q < 0 ? -1.0 : 1.0) * (bMax - oneOverBMax), 0.0));
     }
@@ -106,7 +105,7 @@ public class LetsBeRational {
 
         double asymptoticExpansionSum = sum;
 
-        double b = ONE_OVER_SQRT_TWO_PI * FastMath.exp(-0.5 * (h * h + t * t)) * (t / r) * asymptoticExpansionSum;
+        double b = ONE_OVER_SQRT_TWO_PI * Math.exp(-0.5 * (h * h + t * t)) * (t / r) * asymptoticExpansionSum;
         return Math.abs(Math.max(b, 0.0));
     }
 
@@ -132,7 +131,7 @@ public class LetsBeRational {
 
         double expansion = 2.0 * t * (a + w * ((-1.0 + 3.0 * a + a * h2) / 6.0 + w * ((-7.0 + 15.0 * a + h2 * (-1.0 + 10.0 * a + a * h2)) / 120.0 + w * ((-57.0 + 105.0 * a + h2 * (-18.0 + 105.0 * a + h2 * (-1.0 + 21.0 * a + a * h2))) / 5040.0 + w * ((-561.0 + 945.0 * a + h2 * (-285.0 + 1260.0 * a + h2 * (-33.0 + 378.0 * a + h2 * (-1.0 + 36.0 * a + a * h2)))) / 362880.0 + w * ((-6555.0 + 10395.0 * a + h2 * (-4680.0 + 17325.0 * a + h2 * (-840.0 + 6930.0 * a + h2 * (-52.0 + 990.0 * a + h2 * (-1.0 + 55.0 * a + a * h2))))) / 39916800.0 + ((-89055.0 + 135135.0 * a + h2 * (-82845.0 + 270270.0 * a + h2 * (-20370.0 + 135135.0 * a + h2 * (-1926.0 + 25740.0 * a + h2 * (-75.0 + 2145.0 * a + h2 * (-1.0 + 78.0 * a + a * h2)))))) * w) / 6227020800.0))))));
 
-        double b = ONE_OVER_SQRT_TWO_PI * FastMath.exp(-0.5 * (h * h + t * t)) * expansion;
+        double b = ONE_OVER_SQRT_TWO_PI * Math.exp(-0.5 * (h * h + t * t)) * expansion;
         return Math.abs(Math.max(b, 0.0));
     }
 
@@ -149,7 +148,7 @@ public class LetsBeRational {
     private static double normalizedBlackCallUsingNormCdf(double x, double s) {
         double h = x / s;
         double t = 0.5 * s;
-        double bMax = FastMath.exp(0.5 * x);
+        double bMax = Math.exp(0.5 * x);
         double b = cdf(h + t) * bMax - cdf(h - t) / bMax;
         return Math.abs(Math.max(b, 0.0));
     }
@@ -168,7 +167,7 @@ public class LetsBeRational {
      * @return normalized Black call value
      */
     private static double normalizedBlackCallUsingErfcx(double h, double t) {
-        double b = 0.5 * FastMath.exp(-0.5 * (h * h + t * t)) *
+        double b = 0.5 * Math.exp(-0.5 * (h * h + t * t)) *
                    (erfcx(-ONE_OVER_SQRT_TWO * (h + t)) - erfcx(-ONE_OVER_SQRT_TWO * (h - t)));
         return Math.abs(Math.max(b, 0.0));
     }
@@ -233,12 +232,12 @@ public class LetsBeRational {
         double ax = Math.abs(x);
 
         if (ax <= 0) {
-            return ONE_OVER_SQRT_TWO_PI * FastMath.exp(-0.125 * s * s);
+            return ONE_OVER_SQRT_TWO_PI * Math.exp(-0.125 * s * s);
         } else {
             if (s <= 0 || s <= ax * SQRT_DBL_MIN) {
                 return 0.0;
             }
-            return ONE_OVER_SQRT_TWO_PI * FastMath.exp(-0.5 * (square(x / s) + square(0.5 * s)));
+            return ONE_OVER_SQRT_TWO_PI * Math.exp(-0.5 * (square(x / s) + square(0.5 * s)));
         }
     }
 
@@ -262,7 +261,7 @@ public class LetsBeRational {
 
         double fpp = PI_OVER_SIX * y / (s2 * s) * Phi *
                      (8.0 * SQRT_THREE * s * ax + (3.0 * s2 * (s2 - 8.0) - 8.0 * x * x) * Phi / phi) *
-                     FastMath.exp(2.0 * y + 0.25 * s2);
+                     Math.exp(2.0 * y + 0.25 * s2);
 
         double fp, f;
         if (isBelowHorizon(s)) {
@@ -270,7 +269,7 @@ public class LetsBeRational {
             f = 0.0;
         } else {
             double Phi2 = Phi * Phi;
-            fp = TWO_PI * y * Phi2 * FastMath.exp(y + 0.125 * s * s);
+            fp = TWO_PI * y * Phi2 * Math.exp(y + 0.125 * s * s);
             if (isBelowHorizon(x)) {
                 f = 0.0;
             } else {
@@ -299,8 +298,8 @@ public class LetsBeRational {
             fpp = 0.0;
         } else {
             double w = square(x / s);
-            fp = -0.5 * FastMath.exp(0.5 * w);
-            fpp = SQRT_PI_OVER_TWO * FastMath.exp(w + 0.125 * s * s) * w / s;
+            fp = -0.5 * Math.exp(0.5 * w);
+            fpp = SQRT_PI_OVER_TWO * Math.exp(w + 0.125 * s * s) * w / s;
         }
 
         return new double[]{f, fp, fpp};
@@ -379,7 +378,7 @@ public class LetsBeRational {
             return 0.0;
         }
 
-        double bMax = FastMath.exp(0.5 * x);
+        double bMax = Math.exp(0.5 * x);
         if (beta >= bMax) {
             throw new AboveMaximumException();
         }
@@ -456,8 +455,8 @@ public class LetsBeRational {
                         // Numerical underflow
                         ds = 0.5 * (sLeft + sRight) - s;
                     } else {
-                        double lnB = FastMath.log(b);
-                        double lnBeta = FastMath.log(beta);
+                        double lnB = Math.log(b);
+                        double lnBeta = Math.log(beta);
                         double bpob = bp / b;
                         double h = x / s;
                         double bHalley = h * h / s - s / 4.0;
@@ -552,7 +551,7 @@ public class LetsBeRational {
                             ds = 0.5 * (sLeft + sRight) - s;
                         } else {
                             double bMaxMinusB = bMax - b;
-                            double g = FastMath.log((bMax - beta) / bMaxMinusB);
+                            double g = Math.log((bMax - beta) / bMaxMinusB);
                             double gp = bp / bMaxMinusB;
                             double bHalley = square(x / s) / s - s / 4.0;
                             double bHh3 = bHalley * bHalley - 3.0 * square(x / (s * s)) - 0.25;
@@ -661,7 +660,7 @@ public class LetsBeRational {
             throw new AboveMaximumException();
         }
 
-        double x = FastMath.log(F / K);
+        double x = Math.log(F / K);
 
         // Map in-the-money to out-of-the-money
         if (q * x > 0) {

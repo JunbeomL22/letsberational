@@ -1,6 +1,5 @@
 package com.berational;
 
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Normal (Gaussian) distribution implementation using Cody's error function.
@@ -65,6 +64,6 @@ public class CodyNormDist {
      * @return φ(x)
      */
     public static double pdf(double x) {
-        return FastMath.exp(-0.5 * x * x) / FastMath.sqrt(2.0 * FastMath.PI);
+        return Math.exp(-0.5 * x * x) / Math.sqrt(2.0 * Math.PI);
     }
 }

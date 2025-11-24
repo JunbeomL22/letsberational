@@ -1,6 +1,5 @@
 package com.berational;
 
-import org.apache.commons.math3.util.FastMath;
 /**
  * Implementation of W. J. Cody's error function algorithm.
  * Based on "Rational Chebyshev approximations for the error function"
@@ -117,7 +116,7 @@ public class CodyErf {
                 result = 1.0 - result;
             }
             if (jint == 2) {
-                result = FastMath.exp(ysq) * result;
+                result = Math.exp(ysq) * result;
             }
             return result;
         }
@@ -138,7 +137,7 @@ public class CodyErf {
                 // Compute exp(-x²) carefully to avoid overflow
                 double ysq = Math.floor(y * 16.0) / 16.0;
                 double del = (y - ysq) * (y + ysq);
-                result = FastMath.exp(-ysq * ysq) * FastMath.exp(-del) * result;
+                result = Math.exp(-ysq * ysq) * Math.exp(-del) * result;
             }
         }
         // Region 3: |x| > 4.0
@@ -182,7 +181,7 @@ public class CodyErf {
                     // Compute exp(-x²) carefully
                     double ysq2 = Math.floor(y * 16.0) / 16.0;
                     double del = (y - ysq2) * (y + ysq2);
-                    result = FastMath.exp(-ysq2 * ysq2) * FastMath.exp(-del) * result;
+                    result = Math.exp(-ysq2 * ysq2) * Math.exp(-del) * result;
                 }
             }
         }
@@ -209,7 +208,7 @@ public class CodyErf {
                 } else {
                     double ysq = Math.floor(x * 16.0) / 16.0;
                     double del = (x - ysq) * (x + ysq);
-                    y = FastMath.exp(ysq * ysq) * FastMath.exp(del);
+                    y = Math.exp(ysq * ysq) * Math.exp(del);
                     result = (y + y) - result;
                 }
             }

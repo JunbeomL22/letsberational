@@ -109,7 +109,7 @@ class NormalDistributionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {-3.0, -1.0, 0.0, 1.0, 3.0})
+    @ValueSource(doubles = {-5.0, -3.0, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 5.0})
     void testPdfAgainstApacheCommons(double x) {
         double expected = apacheNormal.density(x);
         double actual = CodyNormDist.pdf(x);

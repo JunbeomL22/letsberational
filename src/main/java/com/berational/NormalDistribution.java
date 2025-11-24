@@ -1,6 +1,5 @@
 package com.berational;
 
-import org.apache.commons.math3.util.FastMath;
 import static com.berational.Constants.*;
 
 /**
@@ -83,7 +82,7 @@ public class NormalDistribution {
      * φ(x) = (1/√(2π)) × exp(-x²/2)
      */
     public static double pdf(double x) {
-        return ONE_OVER_SQRT_TWO_PI * FastMath.exp(-0.5 * x * x);
+        return ONE_OVER_SQRT_TWO_PI * Math.exp(-0.5 * x * x);
     }
 
     /**
