@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.berational.CodyErfTest
 -------------------------------------------------------------------------------
-Tests run: 61, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.161 s - in com.berational.CodyErfTest
+Tests run: 61, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.17 s - in com.berational.CodyErfTest

@@ -27,7 +27,7 @@ class NormalDistributionTest {
         // Center region
         -0.1, -0.01, -0.001, 0.0, 0.001, 0.01, 0.1,
         // Positive tail
-        0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 9.0, 10.0
+        0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 9.0, 10.045081
     })
     void testCdfAgainstApacheCommons(double x) {
         double expected = apacheNormal.cumulativeProbability(x);
@@ -119,9 +119,9 @@ class NormalDistributionTest {
 
     @ParameterizedTest
     @ValueSource(doubles = {
-        -10.0, -8.0, -6.0, -5.0, -4.0, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5,
-        -0.1, 0.0, 0.1,
-        0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0
+        -10.0, -8.0, -6.0, -5.0, -4.0, -3.0, -2.5, -2.0, -1.5, -1.0, -0.75, -0.5, -0.25, 
+        -0.1, 0.0, 0.1, 0.25, 
+        0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0
     })
     void testPdfAgainstApacheCommons(double x) {
         double expected = apacheNormal.density(x);
