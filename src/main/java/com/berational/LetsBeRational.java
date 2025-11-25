@@ -424,6 +424,7 @@ public class LetsBeRational {
 
                 s = inverseFLowerMap(x, f);
                 sRight = sL;
+                ds = s;  // Ensure iteration loop executes
 
                 // Objective function: g(s) = 1/ln(b(s)) - 1/ln(β)
                 while (iterations < N && Math.abs(ds) > DBL_EPSILON * s) {
@@ -482,6 +483,7 @@ public class LetsBeRational {
                 s = rationalCubicInterpolation(beta, bL, bC, sL, sC, 1.0 / vL, 1.0 / vC, rLM);
                 sLeft = sL;
                 sRight = sC;
+                ds = s;  // Ensure iteration loop executes
             }
         } else {
             // Upper half: branches 3 and 4
@@ -496,6 +498,7 @@ public class LetsBeRational {
                 s = rationalCubicInterpolation(beta, bC, bH, sC, sH, 1.0 / vC, 1.0 / vH, rHM);
                 sLeft = sC;
                 sRight = sH;
+                ds = s;  // Ensure iteration loop executes
             } else {
                 // Branch 4: Very high prices
                 double[] fUpper = computeFUpperMapAndFirstTwoDerivatives(x, sH);
@@ -520,9 +523,11 @@ public class LetsBeRational {
 
                 s = inverseFUpperMap(f);
                 sLeft = sH;
+                ds = s;  // Ensure iteration loop executes if we fall through
 
                 if (beta > 0.5 * bMax) {
                     // Objective function: g(s) = ln((b_max-β)/(b_max-b(s)))
+                    ds = s;  // Ensure iteration loop executes
                     while (iterations < N && Math.abs(ds) > DBL_EPSILON * s) {
                         if (ds * dsPrevious < 0) {
                             directionReversalCount++;

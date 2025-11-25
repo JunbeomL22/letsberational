@@ -26,6 +26,9 @@ inline,com/berational/benchmark/ImpliedVolatilityBenchmark.newtonRaphson_HighVol
 inline,com/berational/benchmark/ImpliedVolatilityBenchmark.newtonRaphson_ITM_Call
 inline,com/berational/benchmark/ImpliedVolatilityBenchmark.newtonRaphson_LowVol
 inline,com/berational/benchmark/ImpliedVolatilityBenchmark.newtonRaphson_OTM_Call
+inline,com/berational/benchmark/NormalCdfComparisonBenchmark.apacheCdf
+inline,com/berational/benchmark/NormalCdfComparisonBenchmark.beRationalCdf
+inline,com/berational/benchmark/NormalCdfComparisonBenchmark.setup
 inline,com/berational/benchmark/NormalDistributionBenchmark.apacheCdf
 inline,com/berational/benchmark/NormalDistributionBenchmark.apachePdf
 inline,com/berational/benchmark/NormalDistributionBenchmark.codyCdf

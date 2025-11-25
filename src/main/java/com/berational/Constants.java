@@ -44,7 +44,7 @@ public class Constants {
     // Algorithm-specific thresholds
     public static final int IMPLIED_VOLATILITY_MAXIMUM_ITERATIONS = 2;
     public static final double ASYMPTOTIC_EXPANSION_ACCURACY_THRESHOLD = -10.0;
-    public static final double SMALL_T_EXPANSION_OF_NORMALIZED_BLACK_THRESHOLD = Math.pow(2.0, 16) * SIXTEENTH_ROOT_DBL_EPSILON;
+    public static final double SMALL_T_EXPANSION_OF_NORMALIZED_BLACK_THRESHOLD = 2.0 * SIXTEENTH_ROOT_DBL_EPSILON;
 
     // Prevent instantiation
     private Constants() {

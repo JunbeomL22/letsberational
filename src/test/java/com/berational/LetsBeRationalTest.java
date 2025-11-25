@@ -1,7 +1,6 @@
 package com.berational;
 
 import org.junit.jupiter.api.Test;
-import com.berational.CodyNormDist;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -10,221 +9,239 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class LetsBeRationalTest {
 
-    // private static final double EPSILON = 1e-14;  // Machine precision tolerance
-    // Note: Tolerance is set to 1% due to numerical precision limits when round-tripping
-    // through Black formula. The algorithm achieves machine precision for the inverse problem
-    // itself, but circular testing (vol->price->vol) accumulates small errors from the Black
-    // function evaluation in different parameter regions. Deep ITM/OTM cases show larger errors
-    // (~5%) due to subtraction of near-equal values (option price vs intrinsic value).
-    private static final double TOLERANCE = 1e-3;  // Practical tolerance for round-trip recovery (1%)
+    private static final double VOL_EPSILON = 1e-13;
+    private static final double PRICE_TOLERANCE = 1e-13;
+
+    private static final double[] TEST_VOLS = {0.1, 0.3, 0.8};
 
     @Test
     public void testAtTheMoneyCall() {
-        // ATM call: F = K = 100, T = 1.0, σ = 0.2
+        // ATM call: F = K = 100, T = 1.0
         double F = 100.0;
         double K = 100.0;
         double T = 1.0;
-        double sigma = 0.2;
         int q = 1; // call
 
-        // First compute the Black price
-        double price = blackPrice(F, K, sigma, T, q);
+        for (double sigma : TEST_VOLS) {
+            double price = blackPrice(F, K, sigma, T, q);
+            double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
+                    price, F, K, T, q);
+            double recalculatedPrice = blackPrice(F, K, impliedVol, T, q);
 
-        // Then invert to get implied vol
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
-
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "ATM call implied vol should match input");
+            assertEquals(price, recalculatedPrice, PRICE_TOLERANCE,
+                    "ATM call recalculated price should match original price (sigma=" + sigma + ")");
+            assertEquals(sigma, impliedVol, VOL_EPSILON,
+                    "ATM call implied volatility should match original volatility (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testInTheMoneyCall() {
-        // ITM call: F = 110, K = 100, T = 0.5, σ = 0.25
+        // ITM call: F = 110, K = 100, T = 0.5
         double F = 110.0;
         double K = 100.0;
         double T = 0.5;
-        double sigma = 0.25;
         int q = 1; // call
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
+        for (double sigma : TEST_VOLS) {
+            double price = blackPrice(F, K, sigma, T, q);
+            double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
+                    price, F, K, T, q);
+            double recalculatedPrice = blackPrice(F, K, impliedVol, T, q);
 
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "ITM call implied vol should match input");
+            assertEquals(price, recalculatedPrice, PRICE_TOLERANCE,
+                    "ITM call recalculated price should match original price (sigma=" + sigma + ")");
+            assertEquals(sigma, impliedVol, VOL_EPSILON,
+                    "ITM call implied volatility should match original volatility (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testOutOfTheMoneyCall() {
-        // OTM call: F = 90, K = 100, T = 2.0, σ = 0.3
+        // OTM call: F = 90, K = 100, T = 2.0
         double F = 90.0;
         double K = 100.0;
         double T = 2.0;
-        double sigma = 0.3;
         int q = 1; // call
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
+        for (double sigma : TEST_VOLS) {
+            double price = blackPrice(F, K, sigma, T, q);
+            double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
+                    price, F, K, T, q);
+            double recalculatedPrice = blackPrice(F, K, impliedVol, T, q);
 
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "OTM call implied vol should match input");
+            assertEquals(price, recalculatedPrice, PRICE_TOLERANCE,
+                    "OTM call recalculated price should match original price (sigma=" + sigma + ")");
+            assertEquals(sigma, impliedVol, VOL_EPSILON,
+                    "OTM call implied volatility should match original volatility (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testAtTheMoneyPut() {
-        // ATM put: F = K = 100, T = 1.0, σ = 0.2
+        // ATM put: F = K = 100, T = 1.0
         double F = 100.0;
         double K = 100.0;
         double T = 1.0;
-        double sigma = 0.2;
         int q = -1; // put
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
+        for (double sigma : TEST_VOLS) {
+            double price = blackPrice(F, K, sigma, T, q);
+            double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
+                    price, F, K, T, q);
+            double recalculatedPrice = blackPrice(F, K, impliedVol, T, q);
 
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "ATM put implied vol should match input");
+            assertEquals(price, recalculatedPrice, PRICE_TOLERANCE,
+                    "ATM put recalculated price should match original price (sigma=" + sigma + ")");
+            assertEquals(sigma, impliedVol, VOL_EPSILON,
+                    "ATM put implied volatility should match original volatility (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testInTheMoneyPut() {
-        // ITM put: F = 90, K = 100, T = 0.5, σ = 0.25
+        // ITM put: F = 90, K = 100, T = 0.5
         double F = 90.0;
         double K = 100.0;
         double T = 0.5;
-        double sigma = 0.25;
         int q = -1; // put
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
+        for (double sigma : TEST_VOLS) {
+            double price = blackPrice(F, K, sigma, T, q);
+            double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
+                    price, F, K, T, q);
+            double recalculatedPrice = blackPrice(F, K, impliedVol, T, q);
 
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "ITM put implied vol should match input");
+            assertEquals(price, recalculatedPrice, PRICE_TOLERANCE,
+                    "ITM put recalculated price should match original price (sigma=" + sigma + ")");
+            assertEquals(sigma, impliedVol, VOL_EPSILON,
+                    "ITM put implied volatility should match original volatility (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testOutOfTheMoneyPut() {
-        // OTM put: F = 110, K = 100, T = 2.0, σ = 0.3
+        // OTM put: F = 110, K = 100, T = 2.0
         double F = 110.0;
         double K = 100.0;
         double T = 2.0;
-        double sigma = 0.3;
         int q = -1; // put
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
+        for (double sigma : TEST_VOLS) {
+            double price = blackPrice(F, K, sigma, T, q);
+            double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
+                    price, F, K, T, q);
+            double recalculatedPrice = blackPrice(F, K, impliedVol, T, q);
 
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "OTM put implied vol should match input");
+            assertEquals(price, recalculatedPrice, PRICE_TOLERANCE,
+                    "OTM put recalculated price should match original price (sigma=" + sigma + ")");
+            assertEquals(sigma, impliedVol, VOL_EPSILON,
+                    "OTM put implied volatility should match original volatility (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testLowVolatility() {
-        // Very low volatility: σ = 0.01
-        double F = 100.0;
-        double K = 100.0;
+        // Very low volatility: σ = 0.01, test ATM, ITM, OTM
+        // Note: For ITM/OTM with very low vol, use tighter moneyness to avoid numerical issues
         double T = 1.0;
         double sigma = 0.01;
         int q = 1;
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
-
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "Low volatility should be recovered accurately");
+        // ATM
+        testImpliedVol(100.0, 100.0, sigma, T, q, "Low volatility ATM");
+        // Slightly ITM (avoid extreme cases with very low vol)
+        testImpliedVol(101.0, 100.0, sigma, T, q, "Low volatility ITM");
+        // Slightly OTM
+        testImpliedVol(99.0, 100.0, sigma, T, q, "Low volatility OTM");
     }
 
     @Test
     public void testHighVolatility() {
-        // High volatility: σ = 2.0
-        double F = 100.0;
-        double K = 100.0;
+        // High volatility: σ = 2.0, test ATM, ITM, OTM
         double T = 1.0;
         double sigma = 2.0;
         int q = 1;
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
-
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "High volatility should be recovered accurately");
+        // ATM
+        testImpliedVol(100.0, 100.0, sigma, T, q, "High volatility ATM");
+        // ITM
+        testImpliedVol(110.0, 100.0, sigma, T, q, "High volatility ITM");
+        // OTM
+        testImpliedVol(90.0, 100.0, sigma, T, q, "High volatility OTM");
     }
 
     @Test
     public void testShortExpiry() {
-        // Short time to expiry: T = 0.01 (about 2.5 days)
-        double F = 100.0;
-        double K = 100.0;
+        // Short time to expiry: T = 0.01 (about 2.5 days), test ATM, ITM, OTM
+        // Note: For short expiry, use tighter moneyness to avoid numerical issues with low vol
         double T = 0.01;
-        double sigma = 0.2;
         int q = 1;
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
-
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "Short expiry should work correctly");
+        for (double sigma : TEST_VOLS) {
+            // ATM
+            testImpliedVol(100.0, 100.0, sigma, T, q, "Short expiry ATM (sigma=" + sigma + ")");
+            // Slightly ITM (avoid extreme ITM/OTM with short expiry + low vol)
+            testImpliedVol(102.0, 100.0, sigma, T, q, "Short expiry ITM (sigma=" + sigma + ")");
+            // Slightly OTM
+            testImpliedVol(98.0, 100.0, sigma, T, q, "Short expiry OTM (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testLongExpiry() {
-        // Long time to expiry: T = 10.0 years
-        double F = 100.0;
-        double K = 100.0;
+        // Long time to expiry: T = 10.0 years, test ATM, ITM, OTM
         double T = 10.0;
-        double sigma = 0.2;
         int q = 1;
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
-
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "Long expiry should work correctly");
+        for (double sigma : TEST_VOLS) {
+            // ATM
+            testImpliedVol(100.0, 100.0, sigma, T, q, "Long expiry ATM (sigma=" + sigma + ")");
+            // ITM
+            testImpliedVol(110.0, 100.0, sigma, T, q, "Long expiry ITM (sigma=" + sigma + ")");
+            // OTM
+            testImpliedVol(90.0, 100.0, sigma, T, q, "Long expiry OTM (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testDeepOTMCall() {
-        // Deep OTM call: K/F = 2.0
+        // Deep OTM call: K/F = 2.0, test multiple vols
         double F = 100.0;
         double K = 200.0;
         double T = 1.0;
-        double sigma = 0.5;
         int q = 1;
 
-        double price = blackPrice(F, K, sigma, T, q);
-        double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
-                price, F, K, T, q);
-
-        assertEquals(sigma, impliedVol, TOLERANCE,
-                "Deep OTM call should work correctly");
+        for (double sigma : TEST_VOLS) {
+            testImpliedVol(F, K, sigma, T, q, "Deep OTM call (sigma=" + sigma + ")");
+        }
     }
 
     @Test
     public void testDeepITMCall() {
-        // Deep ITM call: F/K = 2.0
-        // Note: Deep ITM options have larger round-trip errors due to numerical precision
-        // when subtracting intrinsic value (option price ≈ intrinsic value for deep ITM)
+        // Deep ITM call: F/K = 2.0, test multiple vols
+        // Note: Deep ITM with low vol has numerical precision limits, use moderate-high vols
         double F = 200.0;
         double K = 100.0;
         double T = 1.0;
-        double sigma = 0.3;
         int q = 1;
 
+        double[] deepItmVols = {0.3, 0.5, 0.8};
+        for (double sigma : deepItmVols) {
+            testImpliedVol(F, K, sigma, T, q, "Deep ITM call (sigma=" + sigma + ")");
+        }
+    }
+
+    private void testImpliedVol(double F, double K, double sigma, double T, int q, String description) {
         double price = blackPrice(F, K, sigma, T, q);
         double impliedVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
                 price, F, K, T, q);
+        double recalculatedPrice = blackPrice(F, K, impliedVol, T, q);
 
-        assertEquals(sigma, impliedVol, 0.05,  // 5% tolerance for deep ITM
-                "Deep ITM call should work correctly");
+        assertEquals(price, recalculatedPrice, PRICE_TOLERANCE,
+                description + " recalculated price should match original price");
+        assertEquals(sigma, impliedVol, VOL_EPSILON,
+                description + " implied volatility should match original volatility");
     }
 
     @Test
@@ -273,8 +290,15 @@ public class LetsBeRationalTest {
         double putVol = LetsBeRational.impliedVolatilityFromATransformedRationalGuess(
                 putPrice, F, K, T, -1);
 
-        assertEquals(callVol, putVol, TOLERANCE,
-                "Call and put implied vols should match");
+        // Recalculate prices with recovered volatilities
+        double recalculatedCallPrice = blackPrice(F, K, callVol, T, 1);
+        double recalculatedPutPrice = blackPrice(F, K, putVol, T, -1);
+
+        assertEquals(callPrice, recalculatedCallPrice, PRICE_TOLERANCE,
+                "Call price should match recalculated call price");
+
+        assertEquals(putPrice, recalculatedPutPrice, PRICE_TOLERANCE,
+                "Put price should match recalculated put price");
     }
 
     @Test
